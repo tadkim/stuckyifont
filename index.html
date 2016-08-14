@@ -8,73 +8,62 @@
         <title>STUCKYI FONT</title>
         <link rel="stylesheet" type="text/css" href="asset/css/style.css"/> 
         <link rel="stylesheet" type="text/css" href="asset/css/bootstarp.min.css"/> 
+        <style>
+            #defaultCanvas0{
+                background-color:0 !important;
+                /*opacity:0.1;*/
+            }
+        </style>
+        
         
     </head>
     
     <body>
-        <!-- hangul.js test -->
-          <section>
-      <form>
-        <div class="form-group">
-          <label for="input">입력 문장 (자음 및 모음으로 분리)</label>
-          <textarea class="form-control" id="input" placeholder="아버지가 방에 들어가신다">아버지가 방에 들어가신다</textarea>
-        </div>
-      </form>
-      <label for="output">출력 문장</label>
-      <div class="form-control" id="output"></div>
-      </section>
-      <section>
-      <form>
-        <div class="form-group">
-          <label for="input">입력 문장 (자음 및 모음을 조합)</label>
-          <textarea class="form-control" id="input2" placeholder="ㅇㅏㅂㅓㅈㅣㄱㅏ ㅂㅏㅇㅇㅔ ㄷㅡㄹㅇㅓㄱㅏㅅㅣㄴㄷㅏ">ㅇㅏㅂㅓㅈㅣㄱㅏ ㅂㅏㅇㅇㅔ ㄷㅡㄹㅇㅓㄱㅏㅅㅣㄴㄷㅏ</textarea>
-        </div>
-      </form>
-      <label for="output">출력 문장</label>
-      <div class="form-control" id="output2"></div>
-      </section>
         
-        <!-- hangul.js test end -->
         
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.2/p5.js"></script>
+        <!-- tad test-->
+        <section id="formContainer">
+            <label for="input">테스트</label>
+
+            <textarea class="form-control" id="input" placeholder="입력하세요"></textarea>
+            <button class="btn default" id="submitbtn" type="submit">제출</button>
+       <section>
+       
+       <script src="asset/lib/jquery-1.11.0.js"></script>
+        <script src="asset/lib/p5.js"></script>
         
-        <!--폰트 생성 각 단계를 컴포넌트화(?) 하여 호출-->
+        
         <script src="asset/js/font-0making.js"></script>
         <script src="asset/js/font-1combination.js"></script>
-<!--        <script src="./font-2layout.js"></script>-->
         <script src="asset/js/font-3sampletest.js"></script>
         
         <script src="asset/lib/hangul.js"></script>
         
-        
         <script>
+            
+            
 
-        function ready(fn) {
-            if (document.readyState != 'loading'){
-              fn();
-            } else {
-              document.addEventListener('DOMContentLoaded', fn);
-            }
-          }
 
-          var $ = document.querySelector.bind(document);
+            $(function(){
+                $('#submitbtn').on('click', function(e){
+                    let inputValue = $('#input')[0].value; //input 값을 얻는다.
+                    let inputSplit = inputValue.split(''); //한글자씩 분리
 
-          ready(function(){
-            var h1, h2;
-            $('#input').addEventListener('keyup', h1 = function(){
-              var input = this.value;
-              $('#output').innerHTML = Hangul.disassemble(input).join('');
-            });
+                    let compileHangul = Hangul.disassemble(inputValue);
 
-            $('#input2').addEventListener('keyup', h2 = function(){
-              var input = this.value;
-              $('#output2').innerHTML = Hangul.assemble(input);
-            });
+                    console.log(inputSplit);
 
-            h1.bind($('#input'))();
-            h2.bind($('#input2'))();
-          });
+                    $('#formContainer').css('display', 'none');
+                    // console.log(compileHangul);
+                    
+
+
+                    
+                });
+            })
+            
         </script>
+      
     </body>
     
 

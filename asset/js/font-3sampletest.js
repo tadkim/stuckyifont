@@ -175,68 +175,57 @@ var cp11x = cp5x;
 var cp11y = cp7y;
 
 //종적 모음 위치
-var dp1x=w2/2;
-var dp1y=mh0;
-var dp2x=dp1x;
-var dp2y=h2-mh0;
-var dp3x=w2-mw0;
-var dp3y=dp1y;
-var dp4x=dp3x;
-var dp4y=dp2y;
-var dp5x=dp1x;
-var dp5y=(dp1y+dp2y)/2;
-var dp6x=dp3x;
-var dp6y=dp5y;
-var dp7x=mw0;
-var dp7y=dp5y;
-var dp8x=dp5x;
-var dp8y=dp5y-2*h1/3;
-var dp9x=dp3x;
-var dp9y=dp8y;
-var dp10x=dp5x;
-var dp10y=dp5y-h1/3;
-var dp11x=dp6x;
-var dp11y=dp10y;
-var dp12x=dp5x;
-var dp12y=dp5y+h1/3;
-var dp13x=dp6x;
-var dp13y=dp6y+h1/3;
-var dp14x=dp5x;
-var dp14y=dp5y-h1/6;
-var dp15x=dp6x;
-var dp15y=dp6y-h1/6;
-var dp16x=dp7x;
-var dp16y=dp14y;
-var dp17x=dp5x;
-var dp17y=dp5y+h1/6;
-var dp18x=dp6x;
-var dp18y=dp6y+h1/6;
-var dp19x=dp7x;
-var dp19y=dp17y;
+var dp1x=w2/2, dp1y=mh0, dp2x=dp1x, dp2y=h2-mh0,dp3x=w2-mw0, dp3y=dp1y, dp4x=dp3x, dp4y=dp2y, dp5x=dp1x, dp5y=(dp1y+dp2y)/2, dp6x=dp3x, dp6y=dp5y,dp7x=mw0, dp7y=dp5y, dp8x=dp5x, dp8y=dp5y-2*h1/3, dp9x=dp3x, dp9y=dp8y, dp10x=dp5x, dp10y=dp5y-h1/3, dp11x=dp6x, dp11y=dp10y, dp12x=dp5x, dp12y=dp5y+h1/3, dp13x=dp6x, dp13y=dp6y+h1/3, dp14x=dp5x, dp14y=dp5y-h1/6, dp15x=dp6x, dp15y=dp6y-h1/6, dp16x=dp7x, dp16y=dp14y, dp17x=dp5x, dp17y=dp5y+h1/6, dp18x=dp6x, dp18y=dp6y+h1/6, dp19x=dp7x, dp19y = dp17y;
 
 
+var letterArray = ["다", "다", "라", "라", "라", "다", "다", "다", "다"];
+var state = { currentX: 0, currentY: 0 };
 
-
-function setup(){
+function setup() {
+    console.log("setup");
     createCanvas(800,500);
-    colorMode(HSL);
-    createCanvas(550,600);
     colorMode(HSL);
     strokeJoin(ROUND);
     fill(0);
-  
     
+    noLoop();
+    //초기화 완료후 캔버스는 감춘다.
+    ㅎ();
     
+    $('#defaultCanvas0').css('display', 'none');
 }
+var textAreaX, textAreaY = 0;
+var rowX, rowY = 0;
 
-function draw(){
+function draw() {
+    console.log("draw now!");
     background(255);
     
+    for (var i = 0; i < letterArray.length; i++){
+        textAreaX = i % 3;
+        rowX = textAreaX * (letterWidth + letterSpacing);
+        console.log(rowX + ',' + rowY);
+        if (textAreaX === 2) { rowY += (letterHeight + lineHeight); }
+    }
     //폰트사이즈 조절하려했는데 엉뚱한게...
 //    fontSize = fontSize * beta / 90;
     letterWidth = letterWidth + 0.1*beta;
     letterHeight = letterHeight + 0.1*beta;
     
+
+    
+    layout1(state.currentX, state.currentY, gamma); 
+    state.currentX += letterWidth + letterSpacing;
+
+    layout2(state.currentX,0,gamma);
+    layout3(2*(letterWidth+letterSpacing),0,gamma);
+    
+    layout4(0,letterHeight+lineHeight,gamma); 
+    layout5(letterWidth+letterSpacing,letterHeight+lineHeight,gamma);
+    layout6(2*(letterWidth+letterSpacing),letterHeight+lineHeight,gamma);
+    layout7(3*(letterWidth+letterSpacing),letterHeight+lineHeight,gamma);
+    
+    /*
     layout1(0,0,gamma); 
     layout2(letterWidth+letterSpacing,0,gamma);
     layout3(2*(letterWidth+letterSpacing),0,gamma);
@@ -245,10 +234,31 @@ function draw(){
     layout5(letterWidth+letterSpacing,letterHeight+lineHeight,gamma);
     layout6(2*(letterWidth+letterSpacing),letterHeight+lineHeight,gamma);
     layout7(3*(letterWidth+letterSpacing),letterHeight+lineHeight,gamma);
-    
-    
+    */
 }
 
+
+//top3은 초성의 ㄷ 인데, 일단 ㄷ으로 분류
+
+// input : ltterArray[i];
+function makeJaso(letter, tx, ty, g) {
+    let letterSplit = letter.split('');
+    for (var index = 0; index < letterSplit.length; index++){
+        var rowLetter = letterSplit[i];
+        switch (rowLetter) {
+            case 'ㄷ':
+                ㄷ();
+                break;
+            case 'ㅏ':
+                ㅏ();
+                break;
+            default:
+                ㄹ();
+                break;
+        }
+    }
+
+}
 //다
 function layout1(tx,ty,g){  
     frame11(tx + g, ty + m1, g); //닿자 위치
