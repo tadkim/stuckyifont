@@ -9,10 +9,7 @@
         <link rel="stylesheet" type="text/css" href="asset/css/style.css"/> 
         <link rel="stylesheet" type="text/css" href="asset/css/bootstarp.min.css"/> 
         <style>
-            #defaultCanvas0{
-                background-color:0 !important;
-                /*opacity:0.1;*/
-            }
+            
         </style>
         
         
@@ -22,46 +19,207 @@
         
         
         <!-- tad test-->
+        <!--
         <section id="formContainer">
             <label for="input">테스트</label>
 
             <textarea class="form-control" id="input" placeholder="입력하세요"></textarea>
             <button class="btn default" id="submitbtn" type="submit">제출</button>
        <section>
-       
+       -->
        <script src="asset/lib/jquery-1.11.0.js"></script>
         <script src="asset/lib/p5.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.2/addons/p5.dom.min.js"></script>
         
         
         <script src="asset/js/font-0making.js"></script>
         <script src="asset/js/font-1combination.js"></script>
-        <script src="asset/js/font-3sampletest.js"></script>
+        <script src="asset/js/font-3sampletest_set.js"></script>
+        <!--<script src="asset/js/font-3sampletest.js"></script>-->
         
         <script src="asset/lib/hangul.js"></script>
         
         <script>
+            var input, button, greeting;
+
+
+
+var letterArray = ["달", "달", "랄", "라", "라", "다", "다", "다", "다"];
+var state = { currentX: 0, currentY: 0 };
+var textAreaX, textAreaY = 0;
+var rowX, rowY = 0;
+var input, button, greeting;
+
+function setup() {
+    translate(0, 100);
+    console.log("setup");
+    createCanvas(800,500);
+    colorMode(HSL);
+    strokeJoin(ROUND);
+    fill(0);
+    // noLoop();
+
+  input = createInput();
+  input.position(20, 65);
+
+  button = createButton('submit');
+  button.position(150, 65);
+  button.mousePressed(redrawing);
+
+  greeting = createElement('h2', 'what is your name?');
+  greeting.position(20, 5);
+  //초기화 완료후 캔버스는 감춘다.
+    // $('#defaultCanvas0').css('display', 'none');
+  
+}
+
+function draw() {
+    console.log("draw now!");
+    background(255);
+
+    // letterWidth = letterWidth + 0.1*beta;
+    // letterHeight = letterHeight + 0.1*beta;
+    
+    for (var i = 0; i < letterArray.length; i++){
+        textAreaX = i % 3;
+        rowX = textAreaX * (letterWidth + letterSpacing);
+
+        makeJaso(letterArray[i], rowX, rowY, gamma);
+        // console.log(rowX + ',' + rowY);
+        if (textAreaX === 2) { rowY += (letterHeight + lineHeight); }
+    }
+    rowX = 0;
+    rowY = 0;
+    
+} //end draw
+
+
+
+
+// input : ltterArray[i];
+function makeJaso(letter, tx, ty, g) {
+    console.log('makejaso : ' + tx + ", " + ty + ", " + g);
+    console.log(letter);
+    var letterSplit = letter.split('');
+    // var letterSplit = letter.split('');
+    //각 자소타입별 위치
+    var 닿자위치 = { x: tx + g, y: ty + m1 };
+    var 종적모음위치 = { x: tx + m2, y: ty };
+    var 횡적모음위치 = { x: tx, y: ty + m3 };
+    var 받침위치 = { x: tx + g, y: ty + m4 };
+
+    for (var index = 0; index < letterSplit.length; index++){
+        var rowLetter = letterSplit[index];
+        var disassemble = Hangul.disassemble(rowLetter);
+        
+        
+        for (var j = 0; j < disassemble.length; j++){
             
-            
+            var pos;
+           
+            switch (disassemble[j]) {
+                case 'ㄱ':
+                    if (j === 0) { ㄱ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㄱ(받침위치.x, 받침위치.y); } 
+                break;
+                case 'ㄴ':
+                    if (j === 0) { ㄴ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㄴ(받침위치.x, 받침위치.y); } 
+                break;
+                case 'ㄷ':
+                    if (j === 0) { ㄷ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㄷ(받침위치.x, 받침위치.y); } 
+                break;
+                case 'ㄹ':
+                    if (j === 0) { ㄹ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㄹ(받침위치.x, 받침위치.y); } 
+                break;
+                case 'ㅁ':
+                    if (j === 0) { ㅁ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㅁ(받침위치.x, 받침위치.y); } 
+                break;
+                case 'ㅅ':
+                    if (j === 0) { ㅅ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㅅ(받침위치.x, 받침위치.y); } 
+                break;
+                case 'ㅇ':
+                    if (j === 0) { ㅇ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㅇ(받침위치.x, 받침위치.y); } 
+                break;
+                case 'ㅈ':
+                    if (j === 0) { ㅈ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㅈ(받침위치.x, 받침위치.y); } 
+                break;
+                case 'ㅊ':
+                    if (j === 0) { ㅊ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㅊ(받침위치.x, 받침위치.y); } 
+                break;
+                case 'ㅋ':
+                    if (j === 0) { ㅋ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㅋ(받침위치.x, 받침위치.y); } 
+                break;
+                case 'ㅌ':
+                    if (j === 0) { ㅌ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㅌ(받침위치.x, 받침위치.y); } 
+                break;
+                case 'ㅎ':
+                    if (j === 0) { ㅎ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㅎ(받침위치.x, 받침위치.y); } 
+                break;
+            case 'ㅏ':
+                ㅏ(종적모음위치.x, 종적모음위치.y, g);
+                break;
+            case 'ㅑ':
+                ㅑ(종적모음위치.x, 종적모음위치.y, g);
+                break;
+            case 'ㅓ':
+                ㅓ(종적모음위치.x, 종적모음위치.y, g);
+                break;
+            case 'ㅕ':
+                ㅕ(종적모음위치.x, 종적모음위치.y, g);
+            break;
+            case 'ㅗ':
+                ㅗ(횡적모음위치.x, 횡적모음위치.y, g);
+            break;
+            case 'ㅛ':
+                ㅛ(횡적모음위치.x, 횡적모음위치.y, g);
+            break;
+            case '우':
+                ㅗ(횡적모음위치.x, 횡적모음위치.y, g);
+            break;
+            case 'ㅠ':
+                ㅠ(횡적모음위치.x, 횡적모음위치.y, g);
+            break;
+            case 'ㅡ':
+                ㅡ(횡적모음위치.x, 횡적모음위치.y, g);
+            case 'ㅣ':
+                ㅡ(종적모음위치.x, 종적모음위치.y, g);
+            break;
 
+            case 'ㄹ':
+                if (j === 0) { ㄹ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㄹ(받침위치.x, 받침위치.y); } 
+                break;
+            default:
+                   
+                ㄹ(tx+g,ty);
+                break;
+            }
 
-            $(function(){
-                $('#submitbtn').on('click', function(e){
-                    let inputValue = $('#input')[0].value; //input 값을 얻는다.
-                    let inputSplit = inputValue.split(''); //한글자씩 분리
+        }
+    }
 
-                    let compileHangul = Hangul.disassemble(inputValue);
+} //makeJaso end
 
-                    console.log(inputSplit);
+function redrawing(){
+    var inputall = input.value();
+    var inputSplit = inputall.split('');
+    letterArray = inputSplit;
+    loop();
+    console.log("redrawing!");
+    // noLoop();
+}
 
-                    $('#formContainer').css('display', 'none');
-                    // console.log(compileHangul);
-                    
-
-
-                    
-                });
-            })
-            
         </script>
       
     </body>

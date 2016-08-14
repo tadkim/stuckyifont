@@ -1,7 +1,7 @@
 // default values
   xpos = 200;
   ypos = 200;
-  alphas = 0;
+  alpha = 0;
   beta = 0;
   gamma = 0;
 
@@ -177,89 +177,6 @@ var cp11y = cp7y;
 //종적 모음 위치
 var dp1x=w2/2, dp1y=mh0, dp2x=dp1x, dp2y=h2-mh0,dp3x=w2-mw0, dp3y=dp1y, dp4x=dp3x, dp4y=dp2y, dp5x=dp1x, dp5y=(dp1y+dp2y)/2, dp6x=dp3x, dp6y=dp5y,dp7x=mw0, dp7y=dp5y, dp8x=dp5x, dp8y=dp5y-2*h1/3, dp9x=dp3x, dp9y=dp8y, dp10x=dp5x, dp10y=dp5y-h1/3, dp11x=dp6x, dp11y=dp10y, dp12x=dp5x, dp12y=dp5y+h1/3, dp13x=dp6x, dp13y=dp6y+h1/3, dp14x=dp5x, dp14y=dp5y-h1/6, dp15x=dp6x, dp15y=dp6y-h1/6, dp16x=dp7x, dp16y=dp14y, dp17x=dp5x, dp17y=dp5y+h1/6, dp18x=dp6x, dp18y=dp6y+h1/6, dp19x=dp7x, dp19y = dp17y;
 
-
-var letterArray = ["달", "달", "랄", "라", "라", "다", "다", "다", "다"];
-var state = { currentX: 0, currentY: 0 };
-var textAreaX, textAreaY = 0;
-var rowX, rowY = 0;
-var myInput, myButton, myGreeting;
-
-function setup() {
-    console.log("setup");
-    createCanvas(800,500);
-    colorMode(HSL);
-    strokeJoin(ROUND);
-    fill(0);
-    noLoop();
-    //초기화 완료후 캔버스는 감춘다.
-    // $('#defaultCanvas0').css('display', 'none');
-}
-function draw() {
-    console.log("draw now!");
-    background(255);
-
-
-    //폰트사이즈 조절하려했는데 엉뚱한게...
-//    fontSize = fontSize * beta / 90;
-    letterWidth = letterWidth + 0.1*beta;
-    letterHeight = letterHeight + 0.1*beta;
-    
-    for (var i = 0; i < letterArray.length; i++){
-        textAreaX = i % 3;
-        rowX = textAreaX * (letterWidth + letterSpacing);
-
-        makeJaso(letterArray[i], rowX, rowY, gamma);
-        // console.log(rowX + ',' + rowY);
-        if (textAreaX === 2) { rowY += (letterHeight + lineHeight); }
-    }
-    
-    
-} //end draw
-
-
-
-
-// input : ltterArray[i];
-function makeJaso(letter, tx, ty, g) {
-    console.log('makejaso');
-    let letterSplit = letter.split('');
-    //각 자소타입별 위치
-    let 닿자위치 = { x: tx + g, y: ty + m1 };
-    let 종적모음위치 = { x: tx + m2, y: ty };
-    let 횡적모음위치 = { x: tx, y: ty + m3 };
-    let 받침위치 = { x: tx + g, y: ty + m4 };
-
-    for (var index = 0; index < letterSplit.length; index++){
-        var rowLetter = letterSplit[index];
-        var disassemble = Hangul.disassemble(rowLetter);
-        console.log("분리한 초기형태 : " + disassemble);
-        
-        for (var j = 0; j < disassemble.length; j++){
-            console.log("뭐지: " + disassemble[j]);
-            var pos;
-           
-            switch (disassemble[j]) {
-                case 'ㄷ':
-                    if (j === 0) { ㄷ(닿자위치.x, 닿자위치.y); }
-                    else { 받침ㄷ(받침위치.x, 받침위치.y); } 
-                break;
-            case 'ㅏ':
-                ㅏ(종적모음위치.x, 종적모음위치.y, g);
-                break;
-            case 'ㄹ':
-                if (j === 0) { ㄹ(닿자위치.x, 닿자위치.y); }
-                    else { 받침ㄹ(받침위치.x, 받침위치.y); } 
-                break;
-            default:
-                   
-                ㄹ(tx+g,ty);
-                break;
-            }
-
-        }
-    }
-
-} //makeJaso end
 
 
 function ㄷ(tx,ty){
@@ -1358,7 +1275,7 @@ function frame74(tx,ty,g){
 // accelerometer Data
 window.addEventListener('deviceorientation', function(e) 
 {
-  alphas = e.alpha;
+  alpha = e.alpha;
   beta = e.beta;
   gamma = e.gamma;
 });
