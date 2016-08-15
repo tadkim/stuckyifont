@@ -379,7 +379,7 @@ function c3(tx,ty,g){
     pop();
 }
 
-//ㅠ
+//ㅠㅜ 
 function c4(tx,ty,g){
     push();
     noFill();
@@ -394,7 +394,6 @@ function c4(tx,ty,g){
 
 //ㅡ
 function c5(tx, ty, g) {
-    console.log("c5");
     push();
     noFill();
     stroke(fontColor);

@@ -1,45 +1,56 @@
 console.log("stuckyifont-0.1.js");
 
-var input, button, greeting;
 
 
-
-var letterArray = ["달", "달", "랄", "라", "라", "다", "다", "다", "다"];
-var state = {
-    currentX: 0,
-    currentY: 0
-};
-var textAreaX, textAreaY = 0;
-var rowX, rowY = 0;
+var letterArray = ["겁", "씨", "났", "어"]; // 로딩 후 가장 처음에 보일 글자들
+var state = { currentX: 0, currentY: 0 };
+var textAreaX, textAreaY = 0; //글자 영역 결정 전역변수
+var rowX, rowY = 0;  //글자 위치 결정 전역변수
 var input, button, greeting, div;
 
+//곁받침자소 변수선언 : code로 인식하지 못하기 때문 
+var 자소ㄱㅅ = Hangul.assemble(['ㄱ', 'ㅅ']), 자소ㄴㅈ = Hangul.assemble(['ㄴ', 'ㅈ']), 자소ㄴㅎ = Hangul.assemble(['ㄴ', 'ㅎ']), 자소ㄹㄱ = Hangul.assemble(['ㄹ', 'ㄱ']), 자소ㄹㅁ = Hangul.assemble(['ㄹ', 'ㅁ']), 자소ㄹㅂ = Hangul.assemble(['ㄹ', 'ㅂ']), 자소ㄹㅅ = Hangul.assemble(['ㄹ', 'ㅅ']), 자소ㄹㅌ = Hangul.assemble(['ㄹ', 'ㅌ']), 자소ㄹㅍ = Hangul.assemble(['ㄹ', 'ㅍ']), 자소ㄹㅎ = Hangul.assemble(['ㄹ', 'ㅎ']), 자소ㅂㅅ = Hangul.assemble(['ㅂ', 'ㅅ']), 자소우 = Hangul.disassemble('우')[1];
+
+//캔버스, Input, Button 요소의 위치 설정객체
+var elPos = {
+    canvasX: 0, canvasY: 140,
+    inputX: 50, inputY: 55,
+    btnX: 255, btnY: 55
+};
+
+
+
 function setup() {
-    /* disvide size info 
-    // let displayInfo = "display : " + displayWidth + "X" + displayHeight;
-    // let windowInfo = "window : " + windowWidth + "X" + windowHeight;
-    // console.log("setup : " + displayInfo + "," + windowInfo);
-    */
-
-
-
-    createCanvas(800, 1000);
-
+    
+    //캔버스 생성 및 변수에 할당
+    var mainCanvas = createCanvas(800, 1000);
+    mainCanvas.position(elPos.canvasX, elPos.canvasY); //캔버스 위치
+    
+    //캔버스 기본 스타일 설정
     colorMode(HSL);
     strokeJoin(ROUND);
     fill(0);
-    noLoop();
+    // noLoop();
 
-    input = createInput();
-    input.position(20, 65);
+    //Input 설정    
+    input = createInput(); //생성
+    input.addClass('form-control'); //클래스 부여
+    input.size(200, 40); //크기
+    input.position(elPos.inputX, elPos.inputY); //위치
     //   input.hide();
 
-    button = createButton('submit');
-    button.position(150, 65);
-    button.mousePressed(redrawing);
-    button.addClass('btn btn-default');
 
-    greeting = createElement('h4', 'ss');
+    //Button 설정 
+    button = createButton('글자생성'); //생성
+    button.position(elPos.btnX, elPos.btnY); //위치
+    button.mousePressed(redrawing); //마우스 클릭시 이벤트함수 호출
+    button.addClass('btn btn-default'); //클래스 부여
+
+    /*
+    greeting = createElement('h4', '');
     greeting.position(220, 45);
+    */
+    
     //초기화 완료후 캔버스는 감춘다.
     // $('#defaultCanvas0').css('display', 'none');
 
@@ -47,44 +58,32 @@ function setup() {
 
 function draw() {
     background(255);
+    //글자크기 변수
+    letterWidth = letterWidth + 0.1*beta;
+    letterHeight = letterHeight + 0.1*beta;
 
-    // letterWidth = letterWidth + 0.1*beta;
-    // letterHeight = letterHeight + 0.1*beta;
 
+    //글자 위치 결정하는 for문    
     for (var i = 0; i < letterArray.length; i++) {
         textAreaX = i % 3;
         rowX = textAreaX * (letterWidth + letterSpacing);
 
+        //글자자소 생성 함수
         makeJaso(letterArray[i], rowX, rowY, gamma);
-        // console.log(rowX + ',' + rowY);
+        
+        //글자수에 따라 줄 변경 : 현재 3글자에 변경
         if (textAreaX === 2) {
             rowY += (letterHeight + lineHeight);
         }
     }
+    //위치값 초기화
     rowX = 0;
     rowY = 0;
-
 } //end draw
 
 
 
-var 자소ㄱㅅ = Hangul.assemble(['ㄱ', 'ㅅ']);
-var 자소ㄴㅈ = Hangul.assemble(['ㄴ', 'ㅈ']);
-var 자소ㄴㅎ = Hangul.assemble(['ㄴ', 'ㅎ']);
-var 자소ㄹㄱ = Hangul.assemble(['ㄹ', 'ㄱ']);
-var 자소ㄹㅁ = Hangul.assemble(['ㄹ', 'ㅁ']);
-var 자소ㄹㅂ = Hangul.assemble(['ㄹ', 'ㅂ']);
-var 자소ㄹㅅ = Hangul.assemble(['ㄹ', 'ㅅ']);
-var 자소ㄹㅌ = Hangul.assemble(['ㄹ', 'ㅌ']);
-var 자소ㄹㅍ = Hangul.assemble(['ㄹ', 'ㅍ']);
-var 자소ㄹㅎ = Hangul.assemble(['ㄹ', 'ㅎ']);
-var 자소ㅂㅅ = Hangul.assemble(['ㅂ', 'ㅅ']);
-
-
-
-
-
-// input : ltterArray[i];
+//글자자소 생성 함수 --------------------------------------
 function makeJaso(letter, tx, ty, g) {
 
     var letterSplit = letter.split('');
@@ -111,47 +110,18 @@ function makeJaso(letter, tx, ty, g) {
         var rowLetter = letterSplit[index];
         var disassemble = Hangul.disassemble(rowLetter);
 
-        //겹받침인지 체크
+        //겹받침 체크후 자소배열을 곁받침형태로 변환
         var 겹받침인가 = 겹받침체크(disassemble);
         if (겹받침인가 === true) {
-            // console.log("겹받침 주의보");
-            var lastest = disassemble.pop();
-            var last = disassemble.pop();
-            var newEl = Hangul.assemble([last, lastest]);
-            var pushEl = '';
-            if (newEl === 자소ㄱㅅ) {
-                pushEl = 'bottom15';
-            } else if (newEl === 자소ㄴㅈ) {
-                pushEl = 'bottom16'
-            } else if (newEl === 자소ㄴㅎ) {
-                pushEl = 'bottom17'
-            } else if (newEl === 자소ㄹㄱ) {
-                pushEl = 'bottom18'
-            } else if (newEl === 자소ㄹㅁ) {
-                pushEl = 'bottom19'
-            } else if (newEl === 자소ㄹㅂ) {
-                pushEl = 'bottom20'
-            } else if (newEl === 자소ㄹㅅ) {
-                pushEl = 'bottom21'
-            } else if (newEl === 자소ㄹㅌ) {
-                pushEl = 'bottom22'
-            } else if (newEl === 자소ㄹㅍ) {
-                pushEl = 'bottom23'
-            } else if (newEl === 자소ㄹㅎ) {
-                pushEl = 'bottom24'
-            } else if (newEl === 자소ㅂㅅ) {
-                pushEl = 'bottom25'
-            }
-            
+            var pushEl = 겹받침변환(disassemble);
             disassemble.push(pushEl);
         }
-
-
-
-
+        //자소분리(disassemble)된 단위로 font함수 호출
         for (var j = 0; j < disassemble.length; j++) {
+            var jaso = disassemble[j];
+            if (jaso === 자소우) { jaso = '우'; }
 
-            switch (disassemble[j]) {
+            switch (jaso) {
             case 'ㄱ':
                 if (j === 0) {
                     ㄱ(닿자위치.x, 닿자위치.y);
@@ -315,12 +285,14 @@ function makeJaso(letter, tx, ty, g) {
             case 'ㅛ':
                 요(횡적모음위치.x, 횡적모음위치.y, g);
                 break;
+            case '우':
+                우(횡적모음위치.x, 횡적모음위치.y, g);
+                break;
             case 'ㅠ':
                 유(횡적모음위치.x, 횡적모음위치.y, g);
                 break;
             case 'ㅡ':
-                console.log(disassemble[j]);
-                우(횡적모음위치.x, 횡적모음위치.y, g);
+                으(횡적모음위치.x, 횡적모음위치.y, g);
             case 'ㅣ':
                 이1(종적모음위치.x, 종적모음위치.y, g);
                 break;
@@ -354,6 +326,8 @@ function makeJaso(letter, tx, ty, g) {
     }
 
 } //makeJaso end
+
+//곁받침 체크 함수
 function 겹받침체크(arrayname) {
     var lastest = arrayname[arrayname.length - 1];
     var last = arrayname[arrayname.length - 2];
@@ -367,11 +341,44 @@ function 겹받침체크(arrayname) {
     return result;
 }
 
+//곁받침을 홑낱자로 변환
+function 겹받침변환(arrayname) {
+
+    var lastest = arrayname.pop();
+    var last = arrayname.pop();
+    var newEl = Hangul.assemble([last, lastest]);
+    var result = '';
+    if (newEl === 자소ㄱㅅ) {
+        result = 'bottom15';
+    } else if (newEl === 자소ㄴㅈ) {
+        result = 'bottom16'
+    } else if (newEl === 자소ㄴㅎ) {
+        result = 'bottom17'
+    } else if (newEl === 자소ㄹㄱ) {
+        result = 'bottom18'
+    } else if (newEl === 자소ㄹㅁ) {
+        result = 'bottom19'
+    } else if (newEl === 자소ㄹㅂ) {
+        result = 'bottom20'
+    } else if (newEl === 자소ㄹㅅ) {
+        result = 'bottom21'
+    } else if (newEl === 자소ㄹㅌ) {
+        result = 'bottom22'
+    } else if (newEl === 자소ㄹㅍ) {
+        result = 'bottom23'
+    } else if (newEl === 자소ㄹㅎ) {
+        result = 'bottom24'
+    } else if (newEl === 자소ㅂㅅ) {
+        result = 'bottom25'
+    }
+    return result;           
+}
+
+//버튼 클릭 이벤트 : 클릭할때마다 현재 Input값을 바탕으로 다시 loop를 실행시킨다.
 function redrawing() {
     var inputall = input.value();
     var inputSplit = inputall.split('');
     letterArray = inputSplit;
+    background(255); //다시 그릴때 이전의 글자를 지움(덮어쓰기)
     loop();
-    // console.log("redrawing!");
-    // noLoop();
 }
