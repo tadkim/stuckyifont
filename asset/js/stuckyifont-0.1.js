@@ -18,7 +18,7 @@ var elPos = {
     btnX: 255, btnY: 55
 };
 
-var letterPos = { x: 60, y: 120 };
+var letterPos = { x: 60, y: 150 };
 
 
 function setup() {
@@ -60,25 +60,25 @@ function setup() {
 function draw() {
     background(255);
     //글자크기 변수
-    letterWidth = letterWidth + 0.1 * beta;
-    letterHeight = letterHeight + 0.1 * beta;
-    
+    // letterWidth = letterWidth + 0.1 * beta;
+    // letterHeight = letterHeight + 0.1 * beta;
+
+    //글자 위치 변수
     letterPos.x += 0.1 * beta;
     letterPos.y += 0.1 * beta;
-    
 
 
     //글자 위치 결정하는 for문    
     for (var i = 0; i < letterArray.length; i++) {
-        textAreaX = i % 3;
+        textAreaX = i % 4;
         // rowX = textAreaX * (letterWidth + letterSpacing);
         rowX = textAreaX * (letterPos.x + letterSpacing);
 
         //글자자소 생성 함수
-        makeJaso(letterArray[i], rowX, rowY, gamma);
+        틸트폰트생성(letterArray[i], rowX, rowY, gamma);
         
         //글자수에 따라 줄 변경 : 현재 3글자에 변경
-        if (textAreaX === 2) {
+        if (textAreaX === 3) {
             // rowY += (letterHeight + lineHeight);
             rowY += (letterPos.y + lineHeight);
         }
@@ -91,7 +91,7 @@ function draw() {
 
 
 //글자자소 생성 함수 --------------------------------------
-function makeJaso(letter, tx, ty, g) {
+function 틸트폰트생성(letter, tx, ty, g) {
 
     var letterSplit = letter.split('');
 
