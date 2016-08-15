@@ -48,33 +48,37 @@ var letterArray = ["달", "달", "랄", "라", "라", "다", "다", "다", "다"
 var state = { currentX: 0, currentY: 0 };
 var textAreaX, textAreaY = 0;
 var rowX, rowY = 0;
-var input, button, greeting;
+var input, button, greeting, div;
 
 function setup() {
-    translate(0, 100);
-    console.log("setup");
-    createCanvas(800,500);
+    
+    
+    createCanvas(800, 1000);
+    // let displayInfo = "display : " + displayWidth + "X" + displayHeight;
+    // let windowInfo = "window : " + windowWidth + "X" + windowHeight;
+    // console.log("setup : " + displayInfo + "," + windowInfo);
     colorMode(HSL);
     strokeJoin(ROUND);
     fill(0);
     // noLoop();
-
+    
   input = createInput();
   input.position(20, 65);
+//   input.hide();
 
   button = createButton('submit');
   button.position(150, 65);
   button.mousePressed(redrawing);
+  button.addClass('btn btn-default');
 
-  greeting = createElement('h2', 'what is your name?');
-  greeting.position(20, 5);
+  greeting = createElement('h4', displayInfo);
+  greeting.position(220, 45);
   //초기화 완료후 캔버스는 감춘다.
     // $('#defaultCanvas0').css('display', 'none');
   
 }
 
 function draw() {
-    console.log("draw now!");
     background(255);
 
     // letterWidth = letterWidth + 0.1*beta;
@@ -98,8 +102,8 @@ function draw() {
 
 // input : ltterArray[i];
 function makeJaso(letter, tx, ty, g) {
-    console.log('makejaso : ' + tx + ", " + ty + ", " + g);
-    console.log(letter);
+    // console.log('makejaso : ' + tx + ", " + ty + ", " + g);
+    // console.log(letter);
     var letterSplit = letter.split('');
     // var letterSplit = letter.split('');
     //각 자소타입별 위치
@@ -138,6 +142,10 @@ function makeJaso(letter, tx, ty, g) {
                     if (j === 0) { ㅁ(닿자위치.x, 닿자위치.y); }
                     else { 받침ㅁ(받침위치.x, 받침위치.y); } 
                 break;
+                case 'ㅂ':
+                    if (j === 0) { ㅂ(닿자위치.x, 닿자위치.y); }
+                    else { 받침ㅂ(받침위치.x, 받침위치.y); } 
+                break;
                 case 'ㅅ':
                     if (j === 0) { ㅅ(닿자위치.x, 닿자위치.y); }
                     else { 받침ㅅ(받침위치.x, 받침위치.y); } 
@@ -166,36 +174,56 @@ function makeJaso(letter, tx, ty, g) {
                     if (j === 0) { ㅎ(닿자위치.x, 닿자위치.y); }
                     else { 받침ㅎ(받침위치.x, 받침위치.y); } 
                 break;
+            case 'ㄲ':
+                if (j === 0) { ㄲ(닿자위치.x, 닿자위치.y); }
+                else { 받침ㄲ(받침위치.x, 받침위치.y); } 
+            break;
+            case 'ㅆ':
+                if (j === 0) { ㅆ(닿자위치.x, 닿자위치.y); }
+                else { 받침ㅆ(받침위치.x, 받침위치.y); } 
+            break;
             case 'ㅏ':
-                ㅏ(종적모음위치.x, 종적모음위치.y, g);
+                아1(종적모음위치.x, 종적모음위치.y, g);
                 break;
             case 'ㅑ':
-                ㅑ(종적모음위치.x, 종적모음위치.y, g);
+                야1(종적모음위치.x, 종적모음위치.y, g);
                 break;
             case 'ㅓ':
-                ㅓ(종적모음위치.x, 종적모음위치.y, g);
+                어1(종적모음위치.x, 종적모음위치.y, g);
                 break;
             case 'ㅕ':
-                ㅕ(종적모음위치.x, 종적모음위치.y, g);
+                여1(종적모음위치.x, 종적모음위치.y, g);
             break;
             case 'ㅗ':
-                ㅗ(횡적모음위치.x, 횡적모음위치.y, g);
+                오(횡적모음위치.x, 횡적모음위치.y, g);
             break;
             case 'ㅛ':
-                ㅛ(횡적모음위치.x, 횡적모음위치.y, g);
+                요(횡적모음위치.x, 횡적모음위치.y, g);
             break;
-            case '우':
-                ㅗ(횡적모음위치.x, 횡적모음위치.y, g);
+            case 'ㅜ':
+                오(횡적모음위치.x, 횡적모음위치.y, g);
             break;
             case 'ㅠ':
-                ㅠ(횡적모음위치.x, 횡적모음위치.y, g);
+                유(횡적모음위치.x, 횡적모음위치.y, g);
             break;
             case 'ㅡ':
-                ㅡ(횡적모음위치.x, 횡적모음위치.y, g);
+                으(횡적모음위치.x, 횡적모음위치.y, g);
             case 'ㅣ':
-                ㅡ(종적모음위치.x, 종적모음위치.y, g);
+                이1(종적모음위치.x, 종적모음위치.y, g);
             break;
-
+            case 'ㅐ':
+                애1(종적모음위치.x, 종적모음위치.y, g);
+            break;
+            case 'ㅒ':
+                얘1(종적모음위치.x, 종적모음위치.y, g);
+            break;
+            case 'ㅔ':
+                에1(종적모음위치.x, 종적모음위치.y, g);
+            break;
+            case 'ㅖ':
+                예1(종적모음위치.x, 종적모음위치.y, g);
+            break;
+        
             case 'ㄹ':
                 if (j === 0) { ㄹ(닿자위치.x, 닿자위치.y); }
                     else { 받침ㄹ(받침위치.x, 받침위치.y); } 
@@ -216,9 +244,11 @@ function redrawing(){
     var inputSplit = inputall.split('');
     letterArray = inputSplit;
     loop();
-    console.log("redrawing!");
+    // console.log("redrawing!");
     // noLoop();
 }
+
+
 
         </script>
       
