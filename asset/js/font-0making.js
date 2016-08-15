@@ -393,7 +393,8 @@ function c4(tx,ty,g){
 }
 
 //ㅡ
-function c5(tx,ty,g){
+function c5(tx, ty, g) {
+    console.log("c5");
     push();
     noFill();
     stroke(fontColor);
